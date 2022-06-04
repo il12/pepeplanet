@@ -17,8 +17,8 @@
 	</authorization_levels>
 
  	<masterserver_account>
-		<login>iskopaemoe_test_server</login>
-		<password>K_|y\0yR)Pi[rJP&</password>
+		<login>YOUR_SERVER_NAME</login>
+		<password>YOUR_SERVER_PASSWORD</password>
 	</masterserver_account>
 
 	<server_options>
