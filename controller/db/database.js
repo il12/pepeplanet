@@ -7,6 +7,8 @@ import players from './players.js';
 import records from './records.js';
 import checkpoints from './checkpoints.js';
 import karma from './karma.js';
+import HUDSettings from './HUDSettings.js';
+
 /**
  * Author il12 (https://github.com/il12)
  * Esvalirion (https://github.com/Esvalirion)
@@ -40,21 +42,25 @@ const mysqlCheckAndDeployTables = async () => {
 
   log.green('Database deploying started');
   // create tables if missing
-  await queries.reduce(async (promise, query) => {
-    // evade case with whitespace query
-    if (query.length > 1) {
-      // create table if missing
-      promise.then(
-        () => pool.query(query).catch((e) => {
-          log.red(`MySQL database error: ${JSON.stringify(e, null, 2)}`);
-          process.exit(1);
-        }),
-      );
-    }
-  },
-  starterPromise);
-
-  log.white('Database checked and ready to fire, captain!');
+  try {
+    await queries.reduce(async (promise, query) => {
+      // evade case with whitespace query
+      if (query.length > 1) {
+        // create table if missing
+        promise.then(
+          () => pool.query(query).catch((e) => {
+            log.red(`MySQL database error: ${JSON.stringify(e, null, 2)}`);
+            process.exit(1);
+          }),
+        );
+      }
+    },
+    starterPromise);
+    log.white('Database checked and ready to fire, captain!');
+  } catch (e) {
+    log.red(e);
+    process.exit(1);
+  }
 };
 
 export default {
@@ -63,4 +69,5 @@ export default {
   checkpoints,
   karma,
   mysqlCheckAndDeployTables,
+  HUDSettings,
 };
