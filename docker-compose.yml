@@ -21,6 +21,7 @@ services:
       MASTER_LOGIN: $TM_MASTER_LOGIN
       MASTER_PASSWORD: $TM_MASTER_PASSWORD
       XMLRPC_ALLOWREMOTE: "True"
+      FORCE_IP_ADDRESS: $TM_FORCE_IP_ADDRESS
     healthcheck:
       test: 'nc -z -v 127.0.0.1 5000 || exit 1'
       interval: 5s
