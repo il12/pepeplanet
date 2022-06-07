@@ -6,10 +6,10 @@ import pepeplanet from '../pepeplanet.js';
 
 const server = {
   log: (message) => {
-    pepeplanet.client.query('ChatSendServerMessage', [message]);
+    pepeplanet.client.call('ChatSendServerMessage', message);
   },
   private: (message, login) => {
-    pepeplanet.client.query('ChatSendServerMessageToLogin', [`${message}`, login]);
+    pepeplanet.client.call('ChatSendServerMessageToLogin', `${message}`, login);
   },
 };
 

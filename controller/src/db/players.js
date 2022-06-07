@@ -57,7 +57,7 @@ const upsertPlayer = async (id, name, ip) => {
 const existPlayer = async (login) => {
   const sql = `
             SELECT 1 FROM players
-                WHERE login = ?
+                WHERE id = ?
                 LIMIT 1;
             `;
 

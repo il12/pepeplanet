@@ -16,7 +16,7 @@ const template = async (client) => {
     BronzeTime,
     SilverTime,
     GoldTime,
-  } = await client.query('GetCurrentMapInfo', []);
+  } = await client.call('GetCurrentMapInfo');
 
   return `
     <frame id="${attrs.frameName}">

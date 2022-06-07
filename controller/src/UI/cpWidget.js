@@ -54,7 +54,7 @@ const defaultCpsList = (cps, NbCheckpoints, login) => {
 };
 
 const template = async (client, login) => {
-  const { UId, NbCheckpoints } = await client.query('GetCurrentMapInfo', []);
+  const { UId, NbCheckpoints } = await client.call('GetCurrentMapInfo');
 
   const cps = await checkpointdb.getListOfPersonalBestCheckpointsOnMap(UId, login);
 

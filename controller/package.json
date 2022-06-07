@@ -6,7 +6,11 @@
   "author": "esvalirion",
   "license": "MIT",
   "scripts": {
-    "start": "node pepeplanet.js"
+    "start": "node src/pepeplanet.js",
+    "dev": "nodemon src/pepeplanet.js"
+  },
+  "imports": {
+    "#root/*": "./src/*.js"
   },
   "dependencies": {
     "@babel/core": "^7.15.5",

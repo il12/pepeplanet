@@ -26,7 +26,7 @@ const generateUI = async (login, client) => {
     childs,
   });
 
-  client.query('SendDisplayManialinkPageToLogin', [login, tmpls, 0, false]);
+  client.call('SendDisplayManialinkPageToLogin', login, tmpls, 0, false);
 };
 
 export default generateUI;

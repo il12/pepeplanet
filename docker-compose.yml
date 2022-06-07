@@ -4,10 +4,13 @@ services:
     build:
       context: ./controller
       dockerfile: Dockerfile
-    ports:
-      - "8000:5000"
     links:
       - trackmania
+      - mysql
+    depends_on:
+      - trackmania
+      - mysql
+    restart: always
 
   trackmania:
     image: evotm/trackmania:latest
@@ -15,8 +18,37 @@ services:
       - "2350:2350/udp"
       - "2350:2350/tcp"
     environment:
-      MASTER_LOGIN: "iskopaemoe_test_server"
-      MASTER_PASSWORD: "K_|y\\0yR)Pi[rJP&"
+      MASTER_LOGIN: $TM_MASTER_LOGIN
+      MASTER_PASSWORD: $TM_MASTER_PASSWORD
+      XMLRPC_ALLOWREMOTE: "True"
+    healthcheck:
+      test: 'nc -z -v 127.0.0.1 5000 || exit 1'
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - 'serverData:/server/UserData'
 
-  redis:
-    image: redis
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    volumes:
+      - ./mysql/script.sql:/docker-entrypoint-initdb.d/script.sql
+    healthcheck:
+      test: out=$$(mysqladmin ping -h localhost -P 3306 -u $MYSQL_USER --password=$MYSQL_PASSWORD 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  serverData: null

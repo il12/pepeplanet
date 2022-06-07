@@ -1,6 +1,7 @@
 import log from '../utils/log.js';
 import server from '../utils/server.js';
-import config from '../config.js';
+// eslint-disable-next-line import/no-unresolved
+import vars from '#root/config/vars';
 
 import generateUI from '../UI/generateUI.js';
 
@@ -14,7 +15,7 @@ import pepeplanet from '../pepeplanet.js';
 
 const PlayerConnect = async ([login, isSpectator], client) => {
   try {
-    const { Login, NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [login]);
+    const { Login, NickName, IPAddress } = await client.call('GetDetailedPlayerInfo', login);
 
     pepeplanet.addPlayerToPool(Login, NickName);
 
@@ -26,7 +27,7 @@ const PlayerConnect = async ([login, isSpectator], client) => {
       await playerdb.upsertPlayer(Login, NickName, IPAddress);
     }
 
-    if (config.admins.includes(Login)) {
+    if (vars.admins.includes(Login)) {
       server.log(`$ff0🔥 $0f0Wooow, admiral pepega $ff0$o${NickName}$0f0$z $s$0f0here! $z$ff0🔥`);
     } else {
       server.log(`Another pepega $0f0${NickName}$g with us`);

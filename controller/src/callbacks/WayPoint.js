@@ -29,7 +29,7 @@ import pepeplanet from '../pepeplanet.js';
  */
 
 const setData = async (params, client) => {
-  const { UId } = await client.query('GetCurrentMapInfo', []);
+  const { UId } = await client.call('GetCurrentMapInfo');
 
   const record = await recorddb.getRecord(UId, params.login);
   const cps = await checkpointdb.getListOfPersonalBestCheckpointsOnMap(UId, params.login);

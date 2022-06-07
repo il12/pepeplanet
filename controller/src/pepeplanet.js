@@ -1,17 +1,15 @@
 import { GbxClient } from '@evotm/gbxclient';
 import _ from 'lodash';
 
-import config from './config.js';
+import vars from './config/vars.js';
 
 import log from './utils/log.js';
 import server from './utils/server.js';
 import runningMessage from './utils/runningMessage.js';
-import TMServer from './utils/TMServer.js';
 import callbacksList from './callbacks/index.js';
 import generateUI from './UI/generateUI.js';
 
 import playerdb from './db/players.js';
-import db from './db/database.js';
 
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
@@ -25,21 +23,20 @@ const pepeplanet = {
     if (this.players[login]) return;
 
     this.players[login] = {
-      nickName,
-      wayPoints: [],
+      nickName, wayPoints: [],
     };
   },
 
   async renderNewUI(client) {
-    const playerList = await client.query('GetPlayerList', [1000, 0]);
+    try {
+      const playerList = await client.call('GetPlayerList', 1000, 0);
 
-    playerList.forEach(async ({ Login, playerID, NickName }) => {
-      if (playerID === 0) return;
+      playerList.forEach(async ({ Login, playerID, NickName }) => {
+        if (playerID === 0) return;
 
-      this.addPlayerToPool(Login, NickName);
+        this.addPlayerToPool(Login, NickName);
 
-      try {
-        const { IPAddress } = await client.query('GetDetailedPlayerInfo', [Login]);
+        const { IPAddress } = await client.call('GetDetailedPlayerInfo', Login);
 
         const isPlayerExist = await playerdb.existPlayer(Login);
 
@@ -48,14 +45,15 @@ const pepeplanet = {
         }
 
         generateUI(Login, client);
-      } catch (err) {
-        log.red('Something went wrong in renderNewUI');
-        log.red(err);
-      }
-    });
+      });
+    } catch (err) {
+      log.red('Something went wrong in renderNewUI');
+      log.red(err);
+    }
   },
 
   async startCallbackListening() {
+    log.green('Starting callback listening...');
     this.client.on('callback', (method, params) => {
       let callbackFn = _.get(callbacksList, method.split('.')[1]);
       let attrs = params;
@@ -84,11 +82,12 @@ const pepeplanet = {
 
       callbackFn(attrs, this.client);
     });
+    log.green('Callback listening started');
   },
 
   async triggerModeScript(client) {
     try {
-      await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
+      await client.callScript('XmlRpc.EnableCallbacks', 'true');
     } catch (err) {
       log.red('TriggerModeScriptEventArray failed');
       log.red(err);
@@ -108,7 +107,7 @@ const pepeplanet = {
 
   async enableCallbacks(client) {
     try {
-      await client.query('EnableCallbacks', [true]);
+      await client.call('EnableCallbacks', true);
     } catch (err) {
       log.red('EnableCallbacks failed');
       log.red(err);
@@ -122,10 +121,11 @@ const pepeplanet = {
   async authenticate(client) {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
-    await client.query('SetApiVersion', ['2019-03-02']);
+    log.green('Authenticating ...');
+    await client.call('SetApiVersion', '2019-03-02');
 
     try {
-      await client.query('Authenticate', [config.trackmania.login, config.trackmania.password]);
+      await client.call('Authenticate', vars.trackmania.login, vars.trackmania.password);
     } catch (err) {
       log.red('Authenticate failed');
       log.red(err);
@@ -139,32 +139,21 @@ const pepeplanet = {
   async connect() {
     const client = new GbxClient();
     try {
-      await db.mysqlCheckAndDeployTables();
-      const connection = await client.connect(config.trackmania.host, config.trackmania.port);
-
-      connection.on('error', (err) => {
-        log.red('Could not connect to server');
-        log.red(err);
-      });
-
-      log.green('Connecting...');
-      connection.on('connect', () => {
-        log.white(this);
-        this.authenticate(client);
-      });
+      await client.connect(vars.trackmania.host, vars.trackmania.port);
+      await this.authenticate(client);
     } catch (e) {
       log.red(e);
-      setTimeout(pepeplanet.connect, 5000);
+      process.exit(0);
     }
   },
 };
 
 process.on('unhandledRejection', (reason, promise) => {
   log.yellow('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(0);
 });
 
 try {
-  TMServer.startTMDedicatedServer();
   await pepeplanet.connect();
 } catch (e) {
   log.yellow(e);

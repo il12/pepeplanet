@@ -16,7 +16,7 @@ import raceTime from '../utils/raceTime.js';
 
 const BeginMap = async (_, client) => {
   try {
-    const map = await client.query('GetCurrentMapInfo', []);
+    const map = await client.call('GetCurrentMapInfo');
 
     Object.keys(pepeplanet.players).forEach((key) => {
       pepeplanet.players[key].wayPoints = [];
