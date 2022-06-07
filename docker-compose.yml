@@ -41,6 +41,7 @@ services:
       MYSQL_DATABASE: $MYSQL_DATABASE
     volumes:
       - ./mysql/script.sql:/docker-entrypoint-initdb.d/script.sql
+      - /tmdb:/var/lib/mysql
     healthcheck:
       test: out=$$(mysqladmin ping -h localhost -P 3306 -u $MYSQL_USER --password=$MYSQL_PASSWORD 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
 
