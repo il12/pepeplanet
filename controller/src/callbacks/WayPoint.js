@@ -103,7 +103,7 @@ const WayPoint = async (params, client) => {
       await recorddb.upsertRecord({
         map: recordData.UId,
         time: racetime,
-        login,
+        id: login,
       });
 
       if (recordData.record === 0) {
