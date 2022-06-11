@@ -11,7 +11,7 @@ const attrs = {
   closedIcon: '🏆',
 };
 
-const getRecordLine = (user,time,height)=>{
+const getRecordLine = (user, time, height) => {
   return `
         <label pos="155 ${height}" textsize="1.2" textcolor="${'FFFFFF'}" text="${user} - ${raceTime(time)}" z-index="2" textfont="RajdhaniMono" halign="right" valign="top"/>
     `
@@ -40,16 +40,21 @@ const getRecordList = (recordList) => {
 }
 
 const template = async (client) => {
-  const { UId } = await client.call('GetCurrentMapInfo');
-  const recordList = (await records.getRecordListOnMap(UId)).slice(0,10);
-  log.white('recordList widget')
-  log.white(recordList);
-  return `
+  try {
+    const {UId} = await client.call('GetCurrentMapInfo');
+    const recordList = (await records.getRecordListOnMap(UId)).slice(0, 10);
+    log.white('recordList widget')
+    log.white(recordList);
+    return `
     <frame id="${attrs.frameName}">
       <label id="${attrs.frameName}arrow" class="trigger${attrs.frameName} text-light" pos="125.5 65" size="5 5" text="❌" textfont="RajdhaniMono" textsize="1" ScriptEvents="1" halign="center" valign="center" />
       ${getRecordList(recordList)}
     </frame>
   `;
+  } catch (e) {
+    log.red('Error in mapRecordsWidget captain;')
+    log.red(e);
+  }
 };
 
 export default {
