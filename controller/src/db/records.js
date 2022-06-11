@@ -35,16 +35,17 @@ const getRecord = async (map, id) => {
  */
 const getRecordListOnMap = async (map) => {
   const sql = `
-                SELECT * FROM records
+                SELECT players.name AS name, records.time AS time FROM records
                 WHERE
                     uid = ?
+                INNER JOIN players ON players.id = records.id
                 ORDER BY time
             `;
 
   const preparedSql = mysql.format(sql, [map]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
-    log.red('Something wrong in preparedSql, captain!');
+    log.red('Something wrong in getRecordListOnMap, captain!');
     log.red(JSON.stringify(e, null, 2));
     process.exit(1);
   });
