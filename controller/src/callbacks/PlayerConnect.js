@@ -34,7 +34,10 @@ const PlayerConnect = async ([login, isSpectator], client) => {
       server.log(`Another pepega $0f0${NickName}$g with us`);
     }
 
-    generateUI(Login, client);
+    generateUI(Login, client).catch((e)=>{
+      log.red('Error in generateUI')
+      log.red(e);
+    });
 
     // const { UId } = client.query('GetCurrentMapInfo', []);
     // const playerRecord = await recorddb.getRecord(UId, Login);
