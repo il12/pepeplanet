@@ -30,7 +30,7 @@ const getRecordList = (recordList) => {
   }
 
   const displayList = recordList.reduce((accum, record) => {
-    const line = getRecordLine(record.name, recordList.time, height)
+    const line = getRecordLine(record.name, record.time, height)
     height -= 4;
   }, '')
 
