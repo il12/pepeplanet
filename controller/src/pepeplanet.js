@@ -32,7 +32,7 @@ const pepeplanet = {
       const playerList = await client.call('GetPlayerList', 1000, 0);
       log.white('current player list')
       log.white(playerList)
-      if(playerList) {
+      if(playerList && playerList.length) {
         playerList.forEach(async ({Login, playerID, NickName}) => {
           if (playerID === 0) return;
 
