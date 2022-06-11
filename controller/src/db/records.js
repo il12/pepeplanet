@@ -42,7 +42,7 @@ const getRecordListOnMap = async (map) => {
                 ORDER BY records.time;
             `;
 
-  const preparedSql = mysql.format(sql, [map]);
+  const preparedSql = mysql.format(sql, [map]).replace('\n', '');
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in getRecordListOnMap, captain!');
