@@ -39,7 +39,7 @@ const getRecordListOnMap = async (map) => {
                 WHERE
                     uid = ?
                 INNER JOIN players ON players.id = records.id
-                ORDER BY time
+                ORDER BY records.time
             `;
 
   const preparedSql = mysql.format(sql, [map]);
