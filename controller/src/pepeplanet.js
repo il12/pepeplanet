@@ -30,22 +30,25 @@ const pepeplanet = {
   async renderNewUI(client) {
     try {
       const playerList = await client.call('GetPlayerList', 1000, 0);
+      log.white('current player list')
+      log.white(playerList)
+      if(playerList) {
+        playerList.forEach(async ({Login, playerID, NickName}) => {
+          if (playerID === 0) return;
 
-      playerList.forEach(async ({ Login, playerID, NickName }) => {
-        if (playerID === 0) return;
+          this.addPlayerToPool(Login, NickName);
 
-        this.addPlayerToPool(Login, NickName);
+          const {IPAddress} = await client.call('GetDetailedPlayerInfo', Login);
 
-        const { IPAddress } = await client.call('GetDetailedPlayerInfo', Login);
+          const isPlayerExist = await playerdb.existPlayer(Login);
 
-        const isPlayerExist = await playerdb.existPlayer(Login);
+          if (!isPlayerExist) {
+            await playerdb.upsertPlayer(Login, NickName, IPAddress);
+          }
 
-        if (!isPlayerExist) {
-          await playerdb.upsertPlayer(Login, NickName, IPAddress);
-        }
-
-        generateUI(Login, client);
-      });
+          generateUI(Login, client);
+        });
+      }
     } catch (err) {
       log.red('Something went wrong in renderNewUI');
       log.red(err);

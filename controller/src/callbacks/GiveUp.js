@@ -6,7 +6,9 @@ import generateUI from '../UI/generateUI.js';
  */
 
 const GiveUp = (params, client) => {
-  pepeplanet.players[params.login].wayPoints = [];
+  if(pepeplanet.players[params.login]) {
+    pepeplanet.players[params.login].wayPoints = [];
+  }
   generateUI(params.login, client);
 };
 

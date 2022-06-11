@@ -52,7 +52,7 @@ const WayPoint = async (params, client) => {
   const { players } = pepeplanet;
 
   try {
-    if (!players[login].recordData) {
+    if (players[login] && !players[login].recordData) {
       players[login].recordData = await setData(params, client);
     }
 

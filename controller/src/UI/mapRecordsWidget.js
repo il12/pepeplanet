@@ -42,7 +42,8 @@ const getRecordList = (recordList) => {
 const template = async (client) => {
   const { UId } = await client.call('GetCurrentMapInfo');
   const recordList = (await records.getRecordListOnMap(UId)).slice(0,10);
-
+  log.white('recordList widget')
+  log.white(recordList);
   return `
     <frame id="${attrs.frameName}">
       <label id="${attrs.frameName}arrow" class="trigger${attrs.frameName} text-light" pos="125.5 65" size="5 5" text="❌" textfont="RajdhaniMono" textsize="1" ScriptEvents="1" halign="center" valign="center" />
