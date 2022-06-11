@@ -16,7 +16,8 @@ import pepeplanet from '../pepeplanet.js';
 const PlayerConnect = async ([login, isSpectator], client) => {
   try {
     const { Login, NickName, IPAddress } = await client.call('GetDetailedPlayerInfo', login);
-
+    log.white('PlayerConnect callback')
+    log.white(Login, NickName, IPAddress);
     pepeplanet.addPlayerToPool(Login, NickName);
 
     log.white(`Player ${NickName} connect ${isSpectator ? ' as spectator' : ''}`);
