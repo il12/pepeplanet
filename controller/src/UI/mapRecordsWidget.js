@@ -1,5 +1,6 @@
 import raceTime from '../utils/raceTime.js';
 import records from "#root/db/records";
+import log from "#root/utils/log";
 
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
