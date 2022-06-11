@@ -30,8 +30,10 @@ const getRecordList = (recordList) => {
   }
 
   const displayList = recordList.reduce((accum, record) => {
+    log.white(JSON.stringify(record));
     const line = getRecordLine(record.name, record.time, height)
     height -= 4;
+    return line;
   }, '')
 
   const bg = `
