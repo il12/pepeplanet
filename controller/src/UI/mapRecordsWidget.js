@@ -14,7 +14,7 @@ const attrs = {
 
 const getRecordLine = (user, time, height) => {
   return `
-        <label pos="155 ${height}" textsize="1.2" textcolor="${'FFFFFF'}" text="${user} - ${raceTime(time)}" z-index="2" textfont="RajdhaniMono" halign="right" valign="top"/>
+        <label pos="155 ${height}" textsize="1.2" textcolor="${'FFFFFF'}" text="${user} - ${time}" z-index="2" textfont="RajdhaniMono" halign="right" valign="top"/>
     `
 }
 
@@ -30,8 +30,9 @@ const getRecordList = (recordList) => {
   }
 
   const displayList = recordList.reduce((accum, record) => {
-    log.white(JSON.stringify(record));
-    const line = getRecordLine(record.name, record.time, height)
+    log.white(record);
+    const time = raceTime(record.time)
+    const line = getRecordLine(record.name, time, height)
     height -= 4;
     return line;
   }, '')
