@@ -31,6 +31,7 @@ const getRecordList = (recordList) => {
 
   const displayList = recordList.reduce((accum, record) => {
     log.white(record);
+    if(!record) return '';
     const time = raceTime(record.time)
     const line = getRecordLine(record.name, time, height)
     height -= 4;
@@ -46,7 +47,8 @@ const getRecordList = (recordList) => {
 const template = async (client) => {
   try {
     const {UId} = await client.call('GetCurrentMapInfo');
-    const recordList = (await records.getRecordListOnMap(UId)).slice(0, 10);
+    const recordList = await records.getRecordListOnMap(UId);
+    const top10 = recordList.slice(0, 10)
     log.white('recordList widget')
     log.white(recordList);
     return `
