@@ -10,5 +10,5 @@ export default [
   clockWidget,
   medalsWidget,
   cpWidget,
-  mapRecordsWidget,
+  //mapRecordsWidget,
 ];
