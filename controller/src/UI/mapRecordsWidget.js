@@ -30,7 +30,6 @@ const getRecordList = (recordList) => {
   }
 
   const displayList = recordList.reduce((accum, record) => {
-    log.white(record);
     if(!record) return '';
     const time = raceTime(record.time)
     const line = getRecordLine(record.name, time, height)
