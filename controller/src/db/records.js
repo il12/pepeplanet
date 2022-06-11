@@ -36,9 +36,8 @@ const getRecord = async (map, id) => {
 const getRecordListOnMap = async (map) => {
   const sql = `
                 SELECT players.name AS name, records.time AS time FROM records
-                WHERE
-                    uid = ?
-                JOIN players ON players.id = records.id
+                INNER JOIN players ON players.id = records.id
+                WHERE uid = ?
                 ORDER BY records.time;
             `;
 
