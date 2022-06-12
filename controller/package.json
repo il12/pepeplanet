@@ -20,7 +20,8 @@
     "lodash": "^4.17.21",
     "mustache": "^4.2.0",
     "mysql2": "^2.3.0",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.0.0",
+    "nodemon": "^2.0.16"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.4",

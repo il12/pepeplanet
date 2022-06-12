@@ -85,7 +85,10 @@ const pepeplanet = {
 
       callbackFn(attrs, this.client);
     });
-    log.green('Callback listening started');
+    // log.green('Callback listening started');
+    // const availableApiVersions = await this.client.callScript('XmlRpc.GetAllApiVersions');
+    // log.white('Available API versions:')
+    // log.white(availableApiVersions);
   },
 
   async triggerModeScript(client) {
@@ -125,10 +128,7 @@ const pepeplanet = {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     log.green('Authenticating ...');
-    const availableApiVersions = await client.callScript('XmlRpc.GetAllApiVersions');
-    log.white('Available API versions:')
-    log.white(availableApiVersions);
-    await client.call('SetApiVersion', '2019-03-02');
+    await client.call('SetApiVersion', '3.7.0');
 
     try {
       await client.call('Authenticate', vars.trackmania.login, vars.trackmania.password);

@@ -1,0 +1,8 @@
+FROM node:18-alpine
+
+WORKDIR /pepeplanet
+
+COPY ./scripts /scripts
+RUN chmod +x -R /scripts
+
+ENTRYPOINT ["sh", "/scripts/entrypoint.dev.sh"]

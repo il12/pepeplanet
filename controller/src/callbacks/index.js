@@ -12,6 +12,7 @@ import PlayerManialinkPageAnswer from './PlayerManialinkPageAnswer.js';
 import StatusChanged from './StatusChanged.js';
 import TunnelDataReceived from './TunnelDataReceived.js';
 import VoteUpdated from './VoteUpdated.js';
+import AllApiVersions from "./AllApiVersions.js";
 
 import WayPoint from './WayPoint.js';
 import GiveUp from './GiveUp.js';
@@ -36,6 +37,7 @@ export default {
   TunnelDataReceived,
   VoteUpdated,
   WayPoint,
+  AllApiVersions,
   Event: {
     // 'Trackmania.Event'
     WayPoint,
