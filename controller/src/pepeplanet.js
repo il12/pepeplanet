@@ -125,7 +125,7 @@ const pepeplanet = {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     log.green('Authenticating ...');
-    const availableApiVersions = client.callScript('XmlRpc.GetAllApiVersions');
+    const availableApiVersions = await client.callScript('XmlRpc.GetAllApiVersions');
     log.white('Available API versions:')
     log.white(availableApiVersions);
     await client.call('SetApiVersion', '2019-03-02');
