@@ -128,7 +128,7 @@ const pepeplanet = {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     log.green('Authenticating ...');
-    await client.call('SetApiVersion', '3.7.0');
+    // await client.call('SetApiVersion', '3.7.0');
 
     try {
       await client.call('Authenticate', vars.trackmania.login, vars.trackmania.password);
